@@ -217,8 +217,20 @@ async function correrSimulacion() {
     ]);
 
     if (resAna.status === 'error') {
-      alert('Error: ' + resAna.mensaje);
+
+      document.getElementById('spinner').style.display = 'none';
+      document.querySelector('.btn-run').disabled = false;
+      document.getElementById('resultados').style.display = 'block';
+      document.getElementById('kpis').innerHTML = `
+        <div class="kpi red" style="grid-column:1/-1; text-align:center; padding:30px;">
+          <div class="label">⚠ Sistema Inestable</div>
+          <div class="value" style="font-size:1.2rem">${resAna.mensaje}</div>
+          <div class="sub" style="margin-top:8px">Aumente el número de técnicos o reduzca la tasa de llegada λ</div>
+        </div>`;
+      document.getElementById('recomendacion').style.display = 'none';
+      document.getElementById('tabla-sensibilidad').innerHTML = '';
       return;
+
     }
 
     const ana = resAna.metricas;
@@ -422,4 +434,3 @@ def sensibilidad_simple():
 if __name__ == '__main__':
     app.run(debug=False)
 
-    
